@@ -15,9 +15,10 @@ sleep 1
 docker rm sympa || true
 sleep 1
 docker run --detach=true --restart=always --name sympa --hostname sympa \
-  --env SET_REAL_IP_FROM=172.17.0.0/16 --env REMOTES=mail \
-  --volume /srv/var/hosts:/etc/hosts:ro --volume /srv/var/log/sympa:/var/log/sympa \
-  --volume /srv/sympa/etc/includes:/etc/sympa/includes --volume /srv/sympa/etc/shared:/etc/sympa/shared \
-  --volume /srv/sympa/spool:/var/spool/sympa --volume /srv/sympa/nullmailer:/var/spool/nullmailer \
-  --volume /srv/sympa/data:/var/lib/sympa \
-  cloyne/sympa
+ --env VIRTUAL_HOST=cloyne.org --env VIRTUAL_ALIAS=/lists,/lists-static/ \
+ --env SET_REAL_IP_FROM=172.17.0.0/16 --env REMOTES=mail \
+ --volume /srv/var/hosts:/etc/hosts:ro --volume /srv/var/log/sympa:/var/log/sympa \
+ --volume /srv/sympa/etc/includes:/etc/sympa/includes --volume /srv/sympa/etc/shared:/etc/sympa/shared \
+ --volume /srv/sympa/spool:/var/spool/sympa --volume /srv/sympa/nullmailer:/var/spool/nullmailer \
+ --volume /srv/sympa/data:/var/lib/sympa \
+ cloyne/sympa
