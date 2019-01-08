@@ -1,3 +1,3 @@
-FROM tozd/sympa
+FROM clonm/sympa
 
 COPY ./etc /etc
