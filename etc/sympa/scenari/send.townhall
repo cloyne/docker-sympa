@@ -1,0 +1,6 @@
+title.gettext Town hall, restricted to subscribers and bsc.coop domains
+
+match([sender], /bsc\.coop$/)                smtp,smime,md5         -> do_it
+is_subscriber([listname],[sender])           smtp,dkim,md5,smime    -> do_it
+is_editor([listname],[sender])               smtp,smime,md5         -> do_it
+true()                                       smtp,md5,smime         -> editorkey
