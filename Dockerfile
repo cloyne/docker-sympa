@@ -5,7 +5,8 @@ COPY ./etc /etc
 RUN chown -R sympa:sympa /etc/sympa/sympa* && \
  chown -R sympa:sympa /var/lib/sympa && \
  chown -R sympa:sympa /etc/sympa/cloyne.org && \
- chown -R sympa:sympa /etc/sympa/conf.d
+ chown -R sympa:sympa /etc/sympa/conf.d && \
+ sed -i '/imklog/s/^/#/' /etc/rsyslog.conf
 
 # upgrade nullmailer so we can use TLS1.3
 RUN echo "deb http://archive.ubuntu.com/ubuntu focal main universe" >> /etc/apt/sources.list && \
