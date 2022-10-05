@@ -14,4 +14,4 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu focal main universe" >> /etc/apt/
  echo "deb http://archive.ubuntu.com/ubuntu focal-backports main universe" >> /etc/apt/sources.list && \
  echo "deb http://archive.ubuntu.com/ubuntu focal-security main universe" >> /etc/apt/sources.list && \
  apt update && \
- apt-get --yes --force-yes --only-upgrade install nullmailer
+ apt-get --yes --force-yes --only-upgrade --no-install-recommends install nullmailer openssh-server
