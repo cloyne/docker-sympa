@@ -1,0 +1,66 @@
+version: '3.2'
+services:
+  pgsql:
+    # image: tozd/mysql:10.1
+    # container_name: mysql
+    # volumes:
+    #   - ./development/db:/var/lib/mysql
+    #   - ./development/log/mysql:/var/log/mysql
+
+    image: clonm/postgresql:10
+      #double check using right tag.
+    network_mode:
+      name: server2.cloyne.org
+    volumes:
+      - development/postgresql:
+        bind: /var/lib/postgresql
+        user: 102
+        group: 106
+      - development/log:
+        bind: /var/log/postgresql
+        user: nobody
+        group: nogroup
+
+  sympa:
+    build: .
+    depends_on:
+         - pgsql
+
+    container_name: sympa
+
+    ports:
+      - "80:80"
+
+    # volumes:
+    #   - ./development/etc/wordpress:/etc/wordpress
+    #   - ./development/etc/service/nginx/run.initialization:/etc/service/nginx/run.initialization
+    #   - ./plugins:/wordpress/wp-content/plugins
+    #   - ./themes:/wordpress/wp-content/themes
+    #   - ./development/log/nginx:/var/log/nginx
+    network_mode:
+      name: server2.cloyne.org
+    environment:
+      VIRTUAL_HOST: localhost
+      REMOTE_ADDR: localhost
+      VIRTUAL_ALIAS: /lists,/lists-static/
+      SET_REAL_IP_FROM: 172.18.0.0/16
+      ADMINADDR: rida.minaj@gmail.com #change to closoft@bsc.coop when pushing
+        #type: pillar
+        #key: mailer:root_alias
+        #join: ','
+      #remotes needs to be changed
+      REMOTES:
+        # type: pillar
+        # key: mailer:relay
+    volumes:
+      - etc/shared:/etc/sympa/shared #read about this in tozd readme
+      - development/log/sympa:/var/log/sympa
+      - development/log/sympa/nginx:/var/log/nginx
+      - development/data:/var/lib/sympa
+      - development/nullmailer:/var/spool/nullmailer
+      - development/spool:/var/spool/sympa
+      - etc/includes:/etc/sympa/includes
+    # dependencies:
+    #   - mail
+    #   - pgsql
+
