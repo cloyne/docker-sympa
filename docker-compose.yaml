@@ -4,14 +4,16 @@ services:
     image: clonm/postgresql:10
       #double check using right tag.
     volumes:
-      - development/postgresql:
-        bind: /var/lib/postgresql
-        user: 102
-        group: 106
-      - development/log:
-        bind: /var/log/postgresql
-        user: nobody
-        group: nogroup
+      - ./development/postgresql:/var/lib/postgresql
+      - ./development/log:/var/log/postgresql
+      #- development/postgresql:
+      #  bind: ./var/lib/postgresql
+      #  user: 102
+      #  group: 106
+      #- development/log:
+      #  bind: ./var/log/postgresql
+      #  user: nobody
+      #  group: nogroup
 
   sympa:
     build: .
@@ -39,13 +41,16 @@ services:
         # type: pillar
         # key: mailer:relay
     volumes:
-      - etc/shared:/etc/sympa/shared #read about this in tozd readme
-      - development/log/sympa:/var/log/sympa
-      - development/log/sympa/nginx:/var/log/nginx
-      - development/data:/var/lib/sympa
-      - development/nullmailer:/var/spool/nullmailer
-      - development/spool:/var/spool/sympa
-      - etc/includes:/etc/sympa/includes
+      - ./etc/shared:/etc/sympa/shared #read about this in tozd readme
+      - ./development/log/sympa:/var/log/sympa
+      - ./development/log/sympa/nginx:/var/log/nginx
+      - ./development/data:/var/lib/sympa
+      - ./development/nullmailer:/var/spool/nullmailer
+      - ./development/spool:/var/spool/sympa
+      - ./etc/includes:/etc/sympa/includes
     networks:
       - server2.cloyne.org
+networks:
+  server2.cloyne.org:
+    external: true
 
