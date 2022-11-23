@@ -6,6 +6,7 @@ RUN chown -R sympa:sympa /etc/sympa/sympa* && \
  chown -R sympa:sympa /var/lib/sympa && \
  chown -R sympa:sympa /etc/sympa/cloyne.org && \
  chown -R sympa:sympa /etc/sympa/conf.d && \
+ chown -R sympa:sympa /etc/includes && \
  sed -i '/imklog/s/^/#/' /etc/rsyslog.conf
 
 # upgrade nullmailer so we can use TLS1.3
